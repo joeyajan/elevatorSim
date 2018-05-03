@@ -47,17 +47,12 @@ class ElevatorController {
     }, false);
 
     if (closest === 0 || !occupiedPassing) {
-      /*closest.moveTo(from);
-      closest.setOccupied();
-      closest.moveTo(to);*/
-      closest.moveTo(from);
+      console.log(`Using elevator ${closest.id} to pickup from ${from} and deliver to ${to}`);
+      closest.moveTo(from, to);
     } else {
-      /*const previousDestination = occupiedPassing.destination;
-      occupiedPassing.moveTo(from);
-      closest.setOccupied();
-      closest.moveTo(previousDestination);
-      closest.setOccupied();
-      closest.moveTo(to);*/
+      console.log(`Using elevator ${occupiedPassing.id} to pickup from ${from} and deliver to ${to}`);
+      occupiedPassing.destination = from;
+      occupiedPassing.pendingDestinations.push(to);
     }
   }
 

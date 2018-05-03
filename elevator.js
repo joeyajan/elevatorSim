@@ -9,9 +9,11 @@ class Elevator {
     this.goingUp = true;
     this.destination = 1;
     this.inService = true;
+    this.pendingDestinations = [];
   }
 
-  moveTo(floor) {
+  moveTo(floor, dest) {
+    this.occupied = true;
     this.doorOpen && this.closeDoor();
     this.destination = floor;
 
@@ -30,8 +32,20 @@ class Elevator {
       self.controller.log({event: 'floorChanged', value: self.floor, id: self.id});
 
       if (self.floor === self.destination) {
+        // landed at current dest for pickup or drop off
         self.openDoor();
         self.occupied = false;
+
+        // if a dest was set, add it to the list
+        if (dest) {
+          self.pendingDestinations.push(dest);
+        }
+
+        // if there is a pending dest, move to it
+        let pending = self.pendingDestinations.pop();
+        if (pending) {
+          self.moveTo(pending);
+        }
       } else {
         setTimeout(mover, 1000);
       }
