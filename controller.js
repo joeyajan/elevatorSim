@@ -46,13 +46,18 @@ class ElevatorController {
       return ret;
     }, false);
 
-    if (closest === 0 || !occupiedPassing) {
-      console.log(`Using elevator ${closest.id} to pickup from ${from} and deliver to ${to}`);
-      closest.moveTo(from, to);
-    } else {
+    if (occupiedPassing /* @TODO && !closestDistance === 0*/) {
       console.log(`Using elevator ${occupiedPassing.id} to pickup from ${from} and deliver to ${to}`);
       occupiedPassing.destination = from;
       occupiedPassing.pendingDestinations.push(to);
+    } else {
+      if (closest) {
+        console.log(`Using elevator ${closest.id} to pickup from ${from} and deliver to ${to}`);
+        closest.moveTo(from, to);
+      } else {
+        console.log('All elevators busy...');
+        // @TODO: log request and add a pending bucket
+      }
     }
   }
 
