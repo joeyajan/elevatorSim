@@ -2,36 +2,38 @@ class Elevator {
   constructor(id, controller) {
     this.id = id;
     this.controller = controller;
-    this.floor = 0; // current floor
+    this.floor = 1; // current floor
     this.occupied = false;
     this.floorsPassed = 0;
     this.doorOpen = false;
     this.goingUp = true;
+    this.destination = 1;
+    this.inService = true;
   }
 
   moveTo(floor) {
+    this.destination = floor;
+
     // set direction
     this.goingUp = floor > this.floor;
 
     while(this.floor !== floor) {
-
       if (this.goingUp) {
-
+        this.floor++;
+      } else {
+        this.floor--;
       }
+
+      this.floorsPassed++;
+      this.controller.log({event: 'floorChanged', value: this.floor, id: this.id});
     }
 
-  }
+    this.openDoor();
+    this.occupied = false;
 
-  moveUp(floors=1) {
-    this.floor++;
-    this.floorsPassed++;
-    this.controller.log({event: 'floorChanged', value: this.floor, id: this.id});
-  }
-
-  moveDown(floors=1) {
-    this.floor--;
-    this.floorsPassed++;
-    this.controller.log({event: 'floorChanged', value: this.floor, id: this.id});
+    if (this.floorsPassed >= 100) {
+      this.inService = false;
+    }
   }
 
   openDoor() {
