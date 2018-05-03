@@ -47,16 +47,17 @@ class ElevatorController {
     }, false);
 
     if (closest === 0 || !occupiedPassing) {
-      closest.moveTo(from);
+      /*closest.moveTo(from);
       closest.setOccupied();
-      closest.moveTo(to);
+      closest.moveTo(to);*/
+      closest.moveTo(from);
     } else {
-      const previousDestination = occupiedPassing.destination;
+      /*const previousDestination = occupiedPassing.destination;
       occupiedPassing.moveTo(from);
       closest.setOccupied();
       closest.moveTo(previousDestination);
       closest.setOccupied();
-      closest.moveTo(to);
+      closest.moveTo(to);*/
     }
   }
 

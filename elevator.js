@@ -18,24 +18,41 @@ class Elevator {
     // set direction
     this.goingUp = floor > this.floor;
 
-    while(this.floor !== floor) {
-      if (this.goingUp) {
-        this.floor++;
+    let self = this;
+    (function mover() {
+      if (self.goingUp) {
+        self.floor++;
       } else {
-        this.floor--;
+        self.floor--;
       }
 
-      this.floorsPassed++;
-      this.controller.log({event: 'floorChanged', value: this.floor, id: this.id});
-    }
+      self.floorsPassed++;
+      self.controller.log({event: 'floorChanged', value: self.floor, id: self.id});
 
-    this.openDoor();
-    this.occupied = false;
+      if (self.floor === self.destination) {
+        self.openDoor();
+        self.occupied = false;
+      } else {
+        setTimeout(mover, 1000);
+      }
+    })();
 
+    // done after every move
     if (this.floorsPassed >= 100) {
       this.inService = false;
     }
   }
+
+
+  checkFloor() {
+
+  }
+
+  // move needs to have a destination in mind
+  // each tick is a move, then test floor for if dest
+      // if dest, open and set unoccupied
+  // if not dest, then tick
+
 
   openDoor() {
     this.doorOpen = true;
