@@ -12,6 +12,7 @@ class Elevator {
   }
 
   moveTo(floor) {
+    this.doorOpen && this.closeDoor();
     this.destination = floor;
 
     // set direction
@@ -39,6 +40,10 @@ class Elevator {
   openDoor() {
     this.doorOpen = true;
     this.controller.log({event: 'doorOpened', id: this.id});
+  }
+
+  setOccupied() {
+    this.occupied = true;
   }
 
   closeDoor() {
