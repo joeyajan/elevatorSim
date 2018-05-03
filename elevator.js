@@ -6,6 +6,20 @@ class Elevator {
     this.occupied = false;
     this.floorsPassed = 0;
     this.doorOpen = false;
+    this.goingUp = true;
+  }
+
+  moveTo(floor) {
+    // set direction
+    this.goingUp = floor > this.floor;
+
+    while(this.floor !== floor) {
+
+      if (this.goingUp) {
+
+      }
+    }
+
   }
 
   moveUp(floors=1) {
